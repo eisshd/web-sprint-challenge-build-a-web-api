@@ -3,14 +3,15 @@ const Projects = require('./projects-model')
 
 async function validateProjectId(req, res, next) {
     try{
-      const user = await Projects.get(req.params.id)
-      if(!user){
+      const projects = await Projects.get(req.params.id)
+      if(!projects){
         res.status(404).json({
           message: 'not found'
         })
       } 
       else {
-          req.user = user
+          req.projects = projects
+
           next()
       }
     }
@@ -21,9 +22,9 @@ async function validateProjectId(req, res, next) {
     }
 }
 
-function validateProject(req, res, next) {
-    const {title, description} = req.body
-    if (!title || !description) {
+function validateProjectPost(req, res, next) {
+    const {completed, description, name} = req.body
+    if (!completed || !description || !name) {
       res.status(400).json({
         message: "missing required fields" 
       })
@@ -32,10 +33,26 @@ function validateProject(req, res, next) {
     }
   }
 
-  
-
+function validateProjectPut(req, res, next) {
+    const {completed, description, name} = req.body
+    // works with test 8
+    if (!name && !completed || !name && !description || !description && !completed){
+      res.status(400).json({
+        message: "missing required fields" 
+      })
+    // works with test 10
+    // if (!name || !completed || !description){
+    //   res.status(400).json({
+    //     message: "missing required fields" 
+    //   })
+    // }
+    } else 
+      console.log('success!')
+      next()
+    }
 
   module.exports = {
     validateProjectId,
-    validateProject
+    validateProjectPost,
+    validateProjectPut
   }

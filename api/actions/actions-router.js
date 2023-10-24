@@ -5,10 +5,9 @@ const Actions = require('./actions-model')
 
 const {
     validateActionsId,
-    validateActions
+    validateActionsPost,
+    validateProjectPut
 } = require('./actions-middlware')
-
-
 
 router.get('/', (req, res, next) => {
     Actions.get()
@@ -21,24 +20,25 @@ router.get('/', (req, res, next) => {
 })
 
 router.get('/:id', validateActionsId, (req, res, next) => {
-    res.json(req.user)   
+  Actions.get()
+  .then(action => res.json(action[req.params.id - 1]))
 })
 
-router.post('/', validateActions, (req, res, next) => {
+router.post('/', validateActionsPost, (req, res, next) => {
     Actions.insert(req.body)
-    .then(newProject => {
-      res.send(newProject)
+    .then(newAction => {
+      res.status(201).json(newAction);
     }
     )
     .catch(next)
 })
 
-router.put('/:id', validateActionsId, validateActions, (req, res, next) => {
-    Actions.update({title, description})
-    .then(updatedProject => {
-        return Projects.get(req.params.id)
+router.put('/:id', validateActionsId, validateProjectPut, (req, res, next) => {
+    Actions.update(req.params.id, (req.body))
+    .then(updatedAction => {
+        return Actions.get(req.params.id)
     })
-    .then(projects => res.json(projects))
+    .then(action => res.json(action))
     .catch(next)
 })
 

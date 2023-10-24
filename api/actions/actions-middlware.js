@@ -21,15 +21,26 @@ async function validateActionsId(req, res, next) {
     }
 }
 
-function validateActions(req, res, next) {
-    const {title, description} = req.body
-    if (!title || !description) {
-      res.status(400).json({
-        message: "missing required fields" 
-      })
-    } else {
-       next()
-    }
+function validateActionsPost(req, res, next) {
+  const {completed, description, notes, project_id} = req.body
+  if (!description || !notes || !project_id) {
+    res.status(400).json({
+      message: "missing required fields" 
+    })
+  } else {
+     next()
+  }
+}
+
+function validateProjectPut(req, res, next) {
+  const {completed, description, notes, project_id} = req.body
+  if (!completed || !description || !notes || !project_id){
+    res.status(400).json({
+      message: "missing required fields" 
+    })
+  } else
+    console.log('success!')
+    next()
   }
 
   
@@ -37,5 +48,6 @@ function validateActions(req, res, next) {
 
   module.exports = {
     validateActionsId,
-    validateActions
+    validateActionsPost,
+    validateProjectPut
   }
