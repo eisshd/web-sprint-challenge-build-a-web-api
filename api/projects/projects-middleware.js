@@ -35,21 +35,17 @@ function validateProjectPost(req, res, next) {
 
 function validateProjectPut(req, res, next) {
     const {completed, description, name} = req.body
-    // works with test 8
-    if (!name && !completed || !name && !description || !description && !completed){
+    if (!name || !completed || !description){
       res.status(400).json({
-        message: "missing required fields" 
+        completed: completed,
+        description: description,
+        name: name
       })
-    // works with test 10
-    // if (!name || !completed || !description){
-    //   res.status(400).json({
-    //     message: "missing required fields" 
-    //   })
-    // }
-    } else 
+    } 
+      else 
       console.log('success!')
       next()
-    }
+  }
 
   module.exports = {
     validateProjectId,

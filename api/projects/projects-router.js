@@ -38,10 +38,7 @@ router.post('/', validateProjectPost, (req, res, next) => {
 
 router.put('/:id', validateProjectId, validateProjectPut, (req, res, next) => {
     Projects.update(req.params.id, req.body)
-    .then(project => {
-        return Projects.get()
-    })
-    .then(project => res.status(201).json(project[req.params.id - 1]))
+    .then((updatedPost) => {res.status(201).json(updatedPost)})
     .catch(next)
 })
 
