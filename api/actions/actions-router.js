@@ -13,7 +13,7 @@ router.get('/', (req, res, next) => {
     Actions.get()
             .then(
                 actions => {
-                    res.send(actions)    
+                    res.json(actions)    
                 }
             )
             .catch(next)

@@ -7,7 +7,8 @@ const Actions = require('../actions/actions-model')
 const {
     validateProjectId,
     validateProjectPost,
-    validateProjectPut
+    validateProjectPut,
+    validateProjectAction
 } = require('./projects-middleware')
 
 
@@ -23,8 +24,7 @@ router.get('/', (req, res, next) => {
 })
 
 router.get('/:id', validateProjectId, (req, res, next) => {
-    Projects.get()
-            .then(project => res.json(project[req.params.id - 1]))
+    res.json(req.projects)
 })
 
 router.post('/', validateProjectPost, (req, res, next) => {
@@ -51,16 +51,8 @@ router.delete('/:id', validateProjectId, async (req, res, next) => {
       }
 })
 
-router.get('/:id/actions', async (req, res, next) => {
-    try{
-        const action = await Projects.get(req.params.id)
-        if(!action){
-            res.status(404).json([])
-        } else res.json(action.actions)
-    }
-    catch (err) {
-        next(err)
-    }
+router.get('/:id/actions', validateProjectAction, (req, res, next) => {
+    res.json(req.projects)
 })
 
 // Error handling middleware

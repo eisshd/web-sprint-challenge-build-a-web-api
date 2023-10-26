@@ -47,8 +47,24 @@ function validateProjectPut(req, res, next) {
       next()
   }
 
+async function validateProjectAction(req, res, next){
+  const action = await Projects.get(req.params.id)
+  try{
+    if(!action){
+      res.status(404).json([])
+    } else{
+      req.projects = action
+      next()
+    }
+  }
+  catch{
+    next()
+  }
+}
+
   module.exports = {
     validateProjectId,
     validateProjectPost,
-    validateProjectPut
+    validateProjectPut,
+    validateProjectAction
   }
