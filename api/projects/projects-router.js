@@ -52,7 +52,7 @@ router.delete('/:id', validateProjectId, async (req, res, next) => {
 })
 
 router.get('/:id/actions', validateProjectAction, (req, res, next) => {
-    res.json(req.projects)
+    res.json(req.projectsactions)
 })
 
 // Error handling middleware

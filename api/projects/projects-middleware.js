@@ -48,12 +48,12 @@ function validateProjectPut(req, res, next) {
   }
 
 async function validateProjectAction(req, res, next){
-  const action = await Projects.get(req.params.id)
+  const action = await Projects.getProjectActions(req.params.id)
   try{
     if(!action){
       res.status(404).json([])
     } else{
-      req.projects = action.actions
+      req.projectsactions = action
       next()
     }
   }
