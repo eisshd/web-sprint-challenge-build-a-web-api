@@ -53,7 +53,7 @@ async function validateProjectAction(req, res, next){
     if(!action){
       res.status(404).json([])
     } else{
-      req.projects = action
+      req.projects = action.actions
       next()
     }
   }

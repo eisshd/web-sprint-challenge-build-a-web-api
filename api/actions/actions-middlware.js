@@ -3,14 +3,14 @@ const Actions = require('./actions-model')
 
 async function validateActionsId(req, res, next) {
     try{
-      const user = await Actions.get(req.params.id)
-      if(!user){
+      const action = await Actions.get(req.params.id)
+      if(!action){
         res.status(404).json({
           message: 'not found'
         })
       } 
       else {
-          req.user = user
+          req.action = action
           next()
       }
     }

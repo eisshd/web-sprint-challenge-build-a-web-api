@@ -20,8 +20,7 @@ router.get('/', (req, res, next) => {
 })
 
 router.get('/:id', validateActionsId, (req, res, next) => {
-  Actions.get()
-  .then(action => res.json(action[req.params.id - 1]))
+  res.json(req.action)
 })
 
 router.post('/', validateActionsPost, (req, res, next) => {
@@ -45,7 +44,7 @@ router.put('/:id', validateActionsId, validateProjectPut, (req, res, next) => {
 router.delete('/:id', validateActionsId, async (req, res, next) => {
     try{
         await Actions.remove(req.params.id)
-        res.json(req.user)
+        res.json(req.action)
       } catch (err) {
         next(err)
       }
